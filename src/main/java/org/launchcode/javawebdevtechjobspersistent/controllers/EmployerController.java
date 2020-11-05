@@ -1,6 +1,8 @@
 package org.launchcode.javawebdevtechjobspersistent.controllers;
 
 import org.launchcode.javawebdevtechjobspersistent.models.Employer;
+import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -13,6 +15,8 @@ import java.util.Optional;
 @RequestMapping("employers")
 public class EmployerController {
 
+    @Autowired
+    private EmployerRepository employerRepository;
 
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
@@ -28,13 +32,36 @@ public class EmployerController {
             return "employers/add";
         }
 
+        employerRepository.save(newEmployer);
         return "redirect:";
+    }
+
+    @GetMapping
+    public String displayEmployers(@RequestParam(required = false) Integer employerId, Model model){
+
+        if (employerId == null) {
+            model.addAttribute("title", "All Employers");
+            model.addAttribute("employers", employerRepository.findAll());
+        } //else {
+//            Optional<Employer> result = employerRepository.findById(employerId);
+//            if (result.isEmpty()) {
+//                model.addAttribute("title", "Employer ID: " + employerId);
+//            } else {
+//                Employer employer = result.get();
+//                model.addAttribute("title", "Employers in category: " + employer.getName());
+//                model.addAttribute("employers", employer.getEvents());
+//            }
+//        }
+        // I WAS STILL USING THIS CODING FROM THE EVENTS CONTROLLER IN CODING-EVENTS2
+
+        return "employers/index";
     }
 
     @GetMapping("view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
-        Optional optEmployer = null;
+        Optional<Employer> optEmployer = employerRepository.findById(employerId);
+        //Optional optEmployer = null;
         if (optEmployer.isPresent()) {
             Employer employer = (Employer) optEmployer.get();
             model.addAttribute("employer", employer);
