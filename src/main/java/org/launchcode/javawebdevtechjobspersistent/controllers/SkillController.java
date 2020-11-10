@@ -42,17 +42,7 @@ public class SkillController {
         if (skillId == null) {
             model.addAttribute("title", "All Skills");
             model.addAttribute("skills", skillRepository.findAll());
-        } //else {
-//            Optional<Employer> result = employerRepository.findById(employerId);
-//            if (result.isEmpty()) {
-//                model.addAttribute("title", "Employer ID: " + employerId);
-//            } else {
-//                Employer employer = result.get();
-//                model.addAttribute("title", "Employers in category: " + employer.getName());
-//                model.addAttribute("employers", employer.getEvents());
-//            }
-//        }
-        // I WAS STILL USING THIS CODING FROM THE EVENTS CONTROLLER IN CODING-EVENTS2
+        }
 
         return "skills/index";
     }
@@ -61,7 +51,6 @@ public class SkillController {
     public String displayViewSkill(Model model, @PathVariable int skillId) {
 
         Optional<Skill> optSkill = skillRepository.findById(skillId);
-        //Optional optEmployer = null;
         if (optSkill.isPresent()) {
             Skill skill = (Skill) optSkill.get();
             model.addAttribute("skill", skill);

@@ -42,17 +42,7 @@ public class EmployerController {
         if (employerId == null) {
             model.addAttribute("title", "All Employers");
             model.addAttribute("employers", employerRepository.findAll());
-        } //else {
-//            Optional<Employer> result = employerRepository.findById(employerId);
-//            if (result.isEmpty()) {
-//                model.addAttribute("title", "Employer ID: " + employerId);
-//            } else {
-//                Employer employer = result.get();
-//                model.addAttribute("title", "Employers in category: " + employer.getName());
-//                model.addAttribute("employers", employer.getEvents());
-//            }
-//        }
-        // I WAS STILL USING THIS CODING FROM THE EVENTS CONTROLLER IN CODING-EVENTS2
+        }
 
         return "employers/index";
     }
